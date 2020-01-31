@@ -12,7 +12,7 @@ import javax.persistence.Id;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class SpringBootTodoApplication {
+public class Todo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,7 +20,7 @@ public class SpringBootTodoApplication {
     private String todoItem;
     private String completed;
 
-    public SpringBootTodoApplication(String todoItem, String completed) {
+    public Todo(String todoItem, String completed) {
         super();
         this.todoItem = todoItem;
         this.completed = completed;

@@ -1,19 +1,17 @@
 package com.skc.controller;
 
-import com.skc.entity.SpringBootTodoApplication;
+import com.skc.entity.Todo;
 import com.skc.repository.TodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class TodoController {
 
-    @Autowired TodoRepository todoRepository;
+    @Autowired
+    TodoRepository todoRepository;
 
     @GetMapping
     public String index(){
@@ -28,10 +26,10 @@ public class TodoController {
 
     @PostMapping("/todoNew")
     public String add(@RequestParam String todoItem, @RequestParam String status, Model model) {
-        SpringBootTodoApplication springBootTodoApplication = new SpringBootTodoApplication();
-        springBootTodoApplication.setTodoItem(todoItem);
-        springBootTodoApplication.setCompleted(status);
-        todoRepository.save(springBootTodoApplication);
+        Todo todo = new Todo();
+        todo.setTodoItem(todoItem);
+        todo.setCompleted(status);
+        todoRepository.save(todo);
         model.addAttribute("todos", todoRepository.findAll());
         return "redirect:/todos";
     }
@@ -45,14 +43,14 @@ public class TodoController {
 
     @PostMapping("/todoUpdate/{id}")
     public String update(@PathVariable long id, Model model) {
-        SpringBootTodoApplication springBootTodoApplication = todoRepository.findById(id).get();
-        if("Yes".equals(springBootTodoApplication.getCompleted())) {
-            springBootTodoApplication.setCompleted("No");
+        Todo todo = todoRepository.findById(id).get();
+        if("Yes".equals(todo.getCompleted())) {
+            todo.setCompleted("No");
         }
         else {
-            springBootTodoApplication.setCompleted("Yes");
+            todo.setCompleted("Yes");
         }
-        todoRepository.save(springBootTodoApplication);
+        todoRepository.save(todo);
         model.addAttribute("todos", todoRepository.findAll());
         return "redirect:/todos";
     }
